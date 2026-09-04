@@ -1,0 +1,21 @@
+---
+description: Ensure Feature Guardian continuity is applied to product and engineering changes.
+alwaysApply: true
+---
+
+# Feature Guardian (always-on)
+
+For any task that creates, modifies, debugs, tests, refactors, reviews, or completes product behavior, code, schema, configuration, dependencies, architecture, or tests, use the installed `feature-guardian` Agent Skill and follow its lifecycle.
+
+Feature Guardian tracking is automatic unless the user has explicitly excluded the relevant feature (`Monitoring: EXCLUDED`).
+
+Before declaring work done:
+
+1. Reconcile relevant `.feature-guardian/PRODUCT.md` and feature memory with actual evidence.
+2. Run the project's relevant tests (not merely assume implementation works).
+3. Mark affected completed features `REVIEW_REQUIRED` when credible impact exists.
+4. Run `python scripts/validate_memory.py` when memory was updated (or the project's installed validator path).
+
+Do not duplicate Feature Guardian's full protocol in this rule. The skill at `.cursor/skills/feature-guardian/SKILL.md` (or `.agents/skills/feature-guardian/SKILL.md`) is the authoritative operating guide.
+
+Reference documents live under `references/` in the installed skill package.
