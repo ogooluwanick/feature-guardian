@@ -1,19 +1,33 @@
 ---
-description: Ensure Feature Guardian continuity is applied to product and engineering changes.
+description: Ensure Feature Guardian continuity, preflight, and completion discipline on product work.
 alwaysApply: true
 ---
 
 # Feature Guardian (always-on)
 
-For any task that creates, modifies, debugs, tests, refactors, reviews, or completes product behavior, code, schema, configuration, dependencies, architecture, or tests, use the installed `feature-guardian` Agent Skill and follow its lifecycle.
+For any task that creates, modifies, debugs, tests, refactors, reviews, or completes product behavior, code, schema, configuration, dependencies, architecture, or tests:
 
-Feature Guardian tracking is automatic unless the user has explicitly excluded the relevant feature (`Monitoring: EXCLUDED`).
+1. Use the installed **`feature-guardian`** Agent Skill (`.cursor/skills/feature-guardian/` or project symlink).
+2. Follow **`references/PREFLIGHT_PROTOCOL.md`** when `.feature-guardian/` exists — **no product code edits before preflight**.
+3. Use **`unlazy`** for substantial work: write `GATES.md` from the skill's `assets/GATES_FEATURE_TEMPLATE.md` before implementation; do not claim done until gates pass.
+4. Use **`council`** when product direction is ambiguous or Feature Guardian reports alignment conflict before committing scope.
+5. Use **`impeccable`** + **`emil-design-eng`** for user-facing surfaces (web, mobile, email).
+
+Parity (forced, lean): read the feature parity **card index** at preflight (`references/PARITY.md`). On related work open listed provider/`check_here` paths only. Hash STALE/FAIL **blocks done** for touched contracts. Always report drifts to the user and ask when the fix is not obvious or needs a business decision. Run `check_parity.py --feature <slug> --check` before completion claims.
+
+Full companion stack: `references/COMPANION_SKILLS.md` in the feature-guardian package.
+
+Feature Guardian tracking is automatic unless the user excluded the feature (`Monitoring: EXCLUDED`).
 
 Before declaring work done:
 
-1. Reconcile relevant `.feature-guardian/PRODUCT.md` and feature memory with actual evidence.
-2. Run the project's relevant tests (not merely assume implementation works).
+1. Reconcile `.feature-guardian/PRODUCT.md` and feature memory with evidence.
+2. Run relevant tests (not merely assume success).
 3. Mark affected completed features `REVIEW_REQUIRED` when credible impact exists.
-4. Run memory validation when Feature Guardian memory was updated.
+4. Run `python3 .cursor/skills/feature-guardian/scripts/validate_memory.py .` when memory was updated (or the same path under `.agents/skills/feature-guardian/` if you use Agent Skills layout).
+5. Satisfy unlazy gates when `GATES.md` was authored for this task.
+6. Update **ACTIVE WORK** (`FG-TODO-...`): mark progress, `DONE` with evidence, or spawn a new feature when scope warrants it (`references/FEATURE_TODOS.md`).
+7. Consider peer features via PRODUCT relationship map and **RELATED FEATURES**; run `infer_peers.py --apply` when gaps remain after code work.
+8. Parity: `check_parity.py --feature <slug> --check` (and `--report` if drifts); do not claim done while STALE/FAIL blocks touched contracts; tell the user what drifted and what was done.
 
-Do not duplicate Feature Guardian's full protocol in this rule. The installed `feature-guardian` skill is the authoritative operating guide.
+Do not duplicate the full skill in this rule. The installed skill is authoritative.

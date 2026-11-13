@@ -4,16 +4,24 @@ Central lifecycle for Feature Guardian v0.1.
 
 ## Automatic protocol
 
+When `.feature-guardian/` exists, run [PREFLIGHT_PROTOCOL.md](PREFLIGHT_PROTOCOL.md) **before** editing product code. Pair substantial work with unlazy gates per [COMPANION_SKILLS.md](COMPANION_SKILLS.md).
+
 ```text
 USER REQUEST
+      ↓
+FG PREFLIGHT (mandatory)
+      ↓
+COUNCIL / TASTE (when triggered)
+      ↓
+UNLAZY GATES (substantial work)
       ↓
 IDENTIFY PRODUCT + FEATURE(S)
       ↓
 LOAD PRODUCT.md
       ↓
-LOAD RELEVANT FEATURE MEMORY
+LOAD RELEVANT FEATURE MEMORY + PEER FAST CONTEXT (RELATED FEATURES graph)
       ↓
-CHECK CURRENT STATE / FAILURES / DECISIONS / INVARIANTS
+READ ACTIVE WORK + CURRENT STATE / FAILURES / DECISIONS / INVARIANTS
       ↓
 INSPECT ACTUAL CODE + TESTS + GIT STATE
       ↓
@@ -24,6 +32,8 @@ CHECK PRODUCT + FEATURE ALIGNMENT
 CALCULATE RISK
       ↓
 CALCULATE BLAST RADIUS
+      ↓
+READ PARITY CARD INDEX / PATH INTERSECTION / ESCALATE IF STALE OR TOUCHED
       ↓
 SELECT TEST DEPTH
       ↓
@@ -36,6 +46,8 @@ RUN RELATED / DEPENDENCY TESTS
 CHECK INVARIANTS
       ↓
 CHECK REGRESSIONS
+      ↓
+RECONCILE PARITY CARDS / HASH STALE GATE / REPORT DRIFTS TO USER / ASK IF DECISION NEEDED
       ↓
 FLAG COMPLETED FEATURES FOR REVIEW
       ↓
@@ -65,6 +77,16 @@ Before creating a new feature file:
 3. Determine if the request extends an existing feature.
 4. Avoid duplicates from wording variations (`payroll` vs `monthly-pay`).
 
+## Peer awareness (after identification)
+
+Before implementation on the primary feature:
+
+1. Load [FEATURE_PEER_AWARENESS.md](FEATURE_PEER_AWARENESS.md) peer pass.
+2. Update **RELATED FEATURES** when code inspection reveals new peers.
+3. Sync `PRODUCT.md` relationship map when product-level edges change.
+
+Isolation is valid only when **Known Non-Dependencies** or explicit standalone peers are recorded.
+
 ## Bootstrap (no `.feature-guardian/` yet)
 
 1. Run `bootstrap_memory.py`.
@@ -91,7 +113,19 @@ Do **not** update after every line edit. Update after meaningful events:
 - implementation milestone, test result, failure, bug discovered;
 - approach abandoned, architecture/product decision;
 - regression discovered/fixed, requirement changed/completed;
-- dependency/contract/invariant affected, review triggered, rollback.
+- dependency/contract/invariant affected, review triggered, rollback;
+- **todo added, started, completed, cancelled, or blocked** (`FG-TODO-...`).
+
+## Feature todos
+
+See [FEATURE_TODOS.md](FEATURE_TODOS.md). During work:
+
+1. Preflight lists open `FG-TODO` rows on the primary feature.
+2. User picks or agent proposes the next todo; set `IN_PROGRESS` (one at a time by default).
+3. On finish: `DONE` + evidence + `TODO_COMPLETED` event; or `CANCELLED` + reason.
+4. Large scope: spawn a new feature file and close parent todo with spawn evidence.
+
+Mirror open `FG-TODO` ids in Cursor TodoWrite when the user is working through a list.
 
 ## Memory update failure
 
@@ -118,3 +152,7 @@ Append to `SESSION CHECKPOINTS` and event history:
 - Why is this completed feature under review?
 
 Design event history so these are answerable from immutable records plus current state sections.
+
+## Cross-surface parity
+
+Follow [PARITY.md](PARITY.md): maintain a lean card index; read it on related work; force investigation on STALE/FAIL or path intersection. Hash mismatch demotes OK → STALE and **blocks done** for touched contracts. Always tell the user what drifted and what was done; ask when the fix is ambiguous or needs a business decision. New features start UNKNOWN; migrate touched legacy records lazily.

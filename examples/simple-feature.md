@@ -63,7 +63,7 @@ User taps copy; invoice number is on clipboard; toast confirms.
 
 **In scope:** Copy button on invoice detail header.
 **Out of scope:** PDF export, email sharing.
-**Entry points:** `/dashboard/invoices/[id]`
+**Entry points:** `/invoices/[id]`
 **Code locations:** `components/invoice/InvoiceHeader.tsx`
 <!-- FG:FEATURE_BOUNDARY:END -->
 

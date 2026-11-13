@@ -3,13 +3,13 @@
 **Persistent engineering memory and product integrity for AI coding agents.**
 
 [![Status: active development](https://img.shields.io/badge/status-active%20development-orange)](#active-development)
-[![Version 0.1.0](https://img.shields.io/badge/version-0.1.0-blue)](CHANGELOG.md)
+[![Version 0.1.6](https://img.shields.io/badge/version-0.1.6-blue)](CHANGELOG.md)
 [![Schema 0.1](https://img.shields.io/badge/schema-0.1-blue)](references/DATA_MODEL.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 <a id="active-development"></a>
 
-> **Active development (v0.x).** This release is **0.1.0**, memory schema **0.1**. APIs, schemas, and script behavior may change before 1.0, and the project will keep being updated as needed. Shipped changes are recorded in the [changelog](CHANGELOG.md). Planned work is in the [roadmap](#roadmap).
+> **Active development (v0.x).** This release is **0.1.6**, memory schema **0.1**. APIs, schemas, and script behavior may change before 1.0, and the project will keep being updated as needed. Shipped changes are recorded in the [changelog](CHANGELOG.md). Planned work is in the [roadmap](#roadmap).
 
 > Nothing is forgotten, nothing is assumed to work, and nothing important changes without understanding what it could affect.
 
@@ -17,7 +17,7 @@ Feature Guardian tracks every product feature (including small ones), preserves 
 
 | | |
 |---|---|
-| Skill version | `0.1.0` (in [`SKILL.md`](SKILL.md) metadata) |
+| Skill version | `0.1.6` (in [`SKILL.md`](SKILL.md) metadata) |
 | Memory schema | `0.1` (`fg-schema` in memory frontmatter) |
 | License | [MIT](LICENSE) |
 | Runtime | Python 3.9+ standard library for the two scripts. No package install. |
@@ -583,9 +583,13 @@ feature-guardian/
 
 ## Version and schema compatibility
 
-- Skill version: `0.1.0`
+- Skill version: `0.1.6`
 - Memory schema: `0.1`
 - When a future skill's schema is newer than the memory it opens, the skill is supposed to migrate in place, keep history, append a `SCHEMA_MIGRATED` event, update `fg-schema`, and validate. That procedure is specified. v0.1 has nothing older to migrate.
+
+## Cross-surface parity (0.1.6)
+
+Lean **parity cards** index shared contracts (provider + check-here paths). Hash mismatch forces **STALE** and blocks done claims for touched contracts. Agents report drifts to you and ask when fixes need a business decision. See [`references/PARITY.md`](references/PARITY.md) and `scripts/check_parity.py`.
 
 ## Contributing
 

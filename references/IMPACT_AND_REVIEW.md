@@ -2,7 +2,7 @@
 
 ## Blast-radius protocol
 
-For every meaningful change, answer:
+For every meaningful change, answer (after [FEATURE_PEER_AWARENESS.md](FEATURE_PEER_AWARENESS.md) peer pass):
 
 1. What changed directly?
 2. What behavior depends on it?

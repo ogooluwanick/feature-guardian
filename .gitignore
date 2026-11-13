@@ -3,3 +3,6 @@ __pycache__/
 .Python
 .pytest_cache/
 .DS_Store
+GATES.md
+.unlazy/
+.unlazy-hook-state.json

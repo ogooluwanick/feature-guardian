@@ -9,6 +9,7 @@ status: DISCOVERED
 health: UNKNOWN
 confidence: UNKNOWN
 monitoring: ACTIVE
+parity-claim: UNKNOWN
 last-updated: "YYYY-MM-DDTHH:MM:SS+00:00"
 last-verified-commit: null
 ---
@@ -72,12 +73,15 @@ None recorded.
 <!-- FG:RELATED_FEATURES:START -->
 ## RELATED FEATURES
 
+Peers are not optional for shared or money paths. Link slugs; add **Known Non-Dependencies** when truly isolated.
+
 - **Depends On:** None recorded.
 - **Feeds Into:** None recorded.
 - **Shares Infrastructure With:** None recorded.
 - **Potentially Mergeable With:** None recorded.
 - **Potentially Splittable Into:** None recorded.
 - **Conflicts With:** None recorded.
+- **Known Non-Dependencies:** None recorded.
 <!-- FG:RELATED_FEATURES:END -->
 
 <!-- FG:REQUIREMENTS:START -->
@@ -116,8 +120,23 @@ None recorded.
 None recorded.
 <!-- FG:CONTRACTS:END -->
 
+<!-- FG:PARITY:START -->
+## PARITY
+
+Lean parity index (schema 2 cards). Read on related work; investigate only when STALE/FAIL or listed paths are touched. See skill `references/PARITY.md`.
+
+```json
+{
+  "schema_version": 2,
+  "items": []
+}
+```
+<!-- FG:PARITY:END -->
+
 <!-- FG:ACTIVE_WORK:START -->
 ## ACTIVE WORK
+
+Feature-scoped todos (`FG-TODO-######`). See skill `references/FEATURE_TODOS.md`.
 
 None recorded.
 <!-- FG:ACTIVE_WORK:END -->

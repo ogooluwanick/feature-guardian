@@ -121,3 +121,9 @@ Type: PRODUCT_MEMORY_CREATED
 Timestamp: {{CREATED_AT}}
 Summary: Initial PRODUCT.md created by Feature Guardian bootstrap.
 <!-- FG:PRODUCT_EVENT_HISTORY:END -->
+
+## PARITY CONTRACTS
+
+Record cross-feature canonical providers, consumers and intentional differences here; link to each owning feature PARITY record. Missing coverage is UNKNOWN. See the skill reference `references/PARITY.md`.
+
+None recorded.

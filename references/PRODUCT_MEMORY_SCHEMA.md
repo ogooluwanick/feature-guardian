@@ -62,7 +62,7 @@ Rules:
 
 ## Relationship map
 
-Model dependencies as a graph:
+Model dependencies as a graph (see [FEATURE_PEER_AWARENESS.md](FEATURE_PEER_AWARENESS.md)):
 
 ```text
 Authentication → Payroll → Payments
@@ -70,7 +70,7 @@ Staff Notifications ← Payments (events)
 Dark Mode — (no runtime dependency on Payments)
 ```
 
-Record known non-dependencies to prevent blast-radius inflation.
+Record known non-dependencies to prevent blast-radius inflation. Keep per-feature **RELATED FEATURES** aligned with this map.
 
 ## Product health summary
 
@@ -93,3 +93,7 @@ Same states as feature decisions: `ACTIVE`, `EXPERIMENTAL`, `SUPERSEDED`, `REVER
 Record: decision, why, alternatives, evidence, affected features/invariants, date, supersedes.
 
 Template: [assets/PRODUCT_TEMPLATE.md](../assets/PRODUCT_TEMPLATE.md)
+
+## Cross-feature parity
+
+Link each shared parity contract to its canonical provider, consumers and owning feature PARITY record. Keep peer edges and intended differences current; do not copy the entire feature manifest into product memory. Missing or stale coverage remains UNKNOWN. See [PARITY.md](PARITY.md).

@@ -12,7 +12,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-SKILL_VERSION = "0.1.0"
+SKILL_VERSION = "0.1.5"
 FG_SCHEMA_VERSION = "0.1"
 
 

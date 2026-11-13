@@ -2,7 +2,7 @@
 fg-schema: "0.1"
 memory-revision: 5
 product-id: FG-PROD-000001
-name: Acme Payroll (Example)
+name: Extreme Workbench Ltd. (Example)
 created-at: "2026-01-01T00:00:00+00:00"
 last-updated: "2026-09-04T18:00:00+01:00"
 ---
@@ -11,7 +11,7 @@ last-updated: "2026-09-04T18:00:00+01:00"
 
 ## IDENTITY
 
-- **Product:** Acme Payroll
+- **Product:** Extreme Workbench Ltd.
 - **Feature Guardian schema:** 0.1
 
 ## FAST CONTEXT

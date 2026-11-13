@@ -20,6 +20,7 @@ Stable IDs, events, and revision tracking for Feature Guardian schema `0.1`.
 | `FG-UNK-` | Unknown |
 | `FG-ASM-` | Assumption |
 | `FG-CHG-` | Meaningful change |
+| `FG-TODO-` | Feature-scoped todo (ACTIVE WORK) |
 | `FG-DEBT-` | Test/regression debt |
 | `FG-ROLLBACK-` | Rollback record |
 | `FG-EVT-` | Immutable event |
@@ -64,7 +65,7 @@ If unproven: `Root cause: UNKNOWN`.
 
 ## Event types (append-only history)
 
-Include: `FEATURE_CREATED`, `FEATURE_DISCOVERED`, `FEATURE_RENAMED`, `FEATURE_MERGED`, `FEATURE_SPLIT`, `FEATURE_DEPRECATED`, `FEATURE_EXCLUDED`, `REQUIREMENT_ADDED`, `REQUIREMENT_CHANGED`, `REQUIREMENT_SUPERSEDED`, `IMPLEMENTATION_CHANGED`, `DEPENDENCY_CHANGED`, `CONTRACT_CHANGED`, `ASSUMPTION_INVALIDATED`, `TEST_ADDED`, `TEST_RUN`, `TEST_PASSED`, `TEST_FAILED`, `TEST_FLAKY`, `ISSUE_FOUND`, `ISSUE_RESOLVED`, `REGRESSION_FOUND`, `REGRESSION_RESOLVED`, `DECISION_MADE`, `DECISION_SUPERSEDED`, `APPROACH_REJECTED`, `ROLLBACK`, `REVIEW_REQUIRED`, `REVIEW_PASSED`, `REVIEW_FAILED`, `CONTRADICTION_FOUND`, `CONSTITUTION_CHANGED`, `PRODUCT_ALIGNMENT_WARNING`, `RELEASE_BASELINE`, `MEMORY_CORRECTION`, `SCHEMA_MIGRATED`.
+Include: `FEATURE_CREATED`, `FEATURE_DISCOVERED`, `FEATURE_RENAMED`, `FEATURE_MERGED`, `FEATURE_SPLIT`, `FEATURE_DEPRECATED`, `FEATURE_EXCLUDED`, `REQUIREMENT_ADDED`, `REQUIREMENT_CHANGED`, `REQUIREMENT_SUPERSEDED`, `IMPLEMENTATION_CHANGED`, `DEPENDENCY_CHANGED`, `CONTRACT_CHANGED`, `ASSUMPTION_INVALIDATED`, `TEST_ADDED`, `TEST_RUN`, `TEST_PASSED`, `TEST_FAILED`, `TEST_FLAKY`, `ISSUE_FOUND`, `ISSUE_RESOLVED`, `REGRESSION_FOUND`, `REGRESSION_RESOLVED`, `DECISION_MADE`, `DECISION_SUPERSEDED`, `APPROACH_REJECTED`, `ROLLBACK`, `REVIEW_REQUIRED`, `REVIEW_PASSED`, `REVIEW_FAILED`, `CONTRADICTION_FOUND`, `CONSTITUTION_CHANGED`, `PRODUCT_ALIGNMENT_WARNING`, `RELEASE_BASELINE`, `MEMORY_CORRECTION`, `SCHEMA_MIGRATED`, `TODO_ADDED`, `TODO_STARTED`, `TODO_COMPLETED`, `TODO_CANCELLED`, `TODO_BLOCKED`.
 
 Historical events are never deleted. Wrong beliefs get `MEMORY_CORRECTION` appended.
 
@@ -103,3 +104,7 @@ One `FG-ISSUE-...` identity; record per-feature impact in each affected feature 
 ## Regression lineage
 
 Link: `FG-REG-...` introduced by `FG-CHG-...`, affects `FG-REQ-...`, detected by `FG-TEST-...`, resolved by `FG-CHG-...`, protected by `FG-TEST-...`.
+
+## Parity units and events
+
+Parity manifests are additive to schema 0.1. Prefer schema 2 **parity cards** (local item ids); schema 1 units remain valid. Link global FG-CONTRACT / FG-ISSUE / FG-TODO / FG-EVID / FG-DEC records rather than duplicating feature files. See [PARITY.md](PARITY.md). Append PARITY_BASELINE_RECORDED, PARITY_DRIFT_FOUND, PARITY_EVIDENCE_INVALIDATED and PARITY_VERIFIED events as appropriate. Missing historical parity is UNKNOWN, not a regression inferred from absent records.

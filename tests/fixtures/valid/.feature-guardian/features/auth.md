@@ -27,6 +27,15 @@ Test auth feature.
 COMPLETED, HEALTHY.
 <!-- FG:CURRENT_STATE:END -->
 
+<!-- FG:RELATED_FEATURES:START -->
+## RELATED FEATURES
+
+- **Depends On:** None recorded.
+- **Feeds Into:** None recorded.
+- **Shares Infrastructure With:** None recorded.
+- **Known Non-Dependencies:** None recorded.
+<!-- FG:RELATED_FEATURES:END -->
+
 <!-- FG:TEST_REGISTRY:START -->
 ## TEST REGISTRY
 

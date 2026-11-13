@@ -14,8 +14,15 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Set, Tuple
 
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
+from fg_memory_lib import parse_related_features  # noqa: E402
+from check_parity import inspect_feature  # noqa: E402
+
 FG_SCHEMA_VERSION = "0.1"
-SKILL_VERSION = "0.1.0"
+SKILL_VERSION = "0.1.6"
 
 VALID_FEATURE_STATUSES = {
     "DISCOVERED",
@@ -29,6 +36,8 @@ VALID_FEATURE_STATUSES = {
     "DEPRECATED",
 }
 VALID_MONITORING = {"ACTIVE", "DORMANT", "ACTIVE_REVIEW", "EXCLUDED"}
+VALID_TODO_STATUS = {"OPEN", "IN_PROGRESS", "BLOCKED", "DONE", "CANCELLED"}
+TODO_HEADING_RE = re.compile(r"^###\s+(FG-TODO-\d{6})\s*$", re.MULTILINE)
 VALID_HEALTH = {"HEALTHY", "DEGRADED", "UNSAFE", "UNKNOWN"}
 VALID_CONFIDENCE = {"HIGH", "MEDIUM", "LOW", "UNKNOWN"}
 
@@ -216,6 +225,7 @@ def validate_project(project_root: Path) -> ValidationResult:
     slug_values: Dict[str, Path] = {}
     all_ids: Dict[str, List[str]] = {}
     definition_sites: Dict[str, List[str]] = {}
+    related_by_slug: Dict[str, Dict[str, List[str]]] = {}
 
     def register_id(entity_id: str, location: str) -> None:
         all_ids.setdefault(entity_id, []).append(location)
@@ -246,6 +256,14 @@ def validate_project(project_root: Path) -> ValidationResult:
 
         fm, text = read_frontmatter(feature_path)
         validate_feature_frontmatter(fm, feature_path, result)
+        parity = inspect_feature(feature_path, project_root)
+        if parity['present'] or 'parity-claim' in fm:
+            for message in parity['errors']:
+                result.add('error', 'FG037', message, str(feature_path))
+            for message in parity['warnings']:
+                result.add('warning', 'FG038', message, str(feature_path))
+        if fm.get('parity-claim', 'UNKNOWN') not in {'UNKNOWN', 'PARTIAL', 'VERIFIED'}:
+            result.add('error', 'FG039', 'Invalid parity-claim (expected UNKNOWN, PARTIAL or VERIFIED)', str(feature_path))
 
         slug_value = fm.get("slug", slug)
         if slug_value:
@@ -274,7 +292,12 @@ def validate_project(project_root: Path) -> ValidationResult:
         for def_id, sites in extract_definition_ids(text, feature_path).items():
             definition_sites.setdefault(def_id, []).extend(sites)
 
+        canonical_slug = slug_value or slug
+        related_by_slug[canonical_slug] = parse_related_features(text)
+
         validate_feature_body(text, fm, feature_path, result)
+
+    validate_reciprocal_peers(related_by_slug, file_slugs, result)
 
     for entity_id, sites in definition_sites.items():
         if entity_id.startswith("FG-FEAT-"):
@@ -468,6 +491,150 @@ def validate_feature_body(text: str, fm: Dict[str, str], path: Path, result: Val
             "Feature has open contradiction requiring reconciliation",
             loc,
         )
+
+    validate_active_work(text, path, result)
+    validate_peer_awareness(text, fm, path, result)
+
+
+def validate_peer_awareness(
+    text: str, fm: Dict[str, str], path: Path, result: ValidationResult
+) -> None:
+    loc = str(path)
+    status = fm.get("status", "")
+    monitoring = fm.get("monitoring", "")
+    if monitoring == "EXCLUDED":
+        return
+    block_match = re.search(
+        r"<!-- FG:RELATED_FEATURES:START -->(.*?)<!-- FG:RELATED_FEATURES:END -->",
+        text,
+        re.DOTALL,
+    )
+    if not block_match:
+        if status in ("IN_DEVELOPMENT", "COMPLETED", "REVIEW_REQUIRED"):
+            result.add(
+                "warning",
+                "FG035",
+                "Missing RELATED FEATURES section markers; peer graph not documented",
+                loc,
+            )
+        return
+    block = block_match.group(1)
+    depends_none = "**Depends On:** None recorded." in block
+    feeds_none = "**Feeds Into:** None recorded." in block
+    shares_none = "**Shares Infrastructure With:** None recorded." in block
+    all_none = depends_none and feeds_none and shares_none
+    if all_none and status in ("COMPLETED", "IN_DEVELOPMENT", "REVIEW_REQUIRED"):
+        if monitoring == "DORMANT":
+            return
+        result.add(
+            "warning",
+            "FG035",
+            "RELATED FEATURES has no peer links; confirm standalone or document peers (FEATURE_PEER_AWARENESS.md)",
+            loc,
+        )
+
+
+def validate_reciprocal_peers(
+    related_by_slug: Dict[str, Dict[str, List[str]]],
+    slug_to_path: Dict[str, Path],
+    result: ValidationResult,
+) -> None:
+    for slug_a, rel_a in related_by_slug.items():
+        for slug_b in rel_a.get("feeds_into", []):
+            if slug_b not in related_by_slug:
+                continue
+            rel_b = related_by_slug[slug_b]
+            upstream = set(rel_b.get("depends_on", [])) | set(rel_b.get("shares", []))
+            if slug_a not in upstream:
+                loc = str(slug_to_path.get(slug_b, slug_b))
+                result.add(
+                    "warning",
+                    "FG036",
+                    f"{slug_a} feeds into {slug_b} but {slug_b} does not list {slug_a} "
+                    "in Depends On or Shares Infrastructure With (run infer_peers.py --apply)",
+                    loc,
+                )
+
+
+def validate_active_work(text: str, path: Path, result: ValidationResult) -> None:
+    loc = str(path)
+    if "FG:ACTIVE_WORK" not in text and "FG-TODO-" in text:
+        result.add(
+            "warning",
+            "FG031",
+            "FG-TODO entries exist but FG:ACTIVE_WORK section markers are missing",
+            loc,
+        )
+    if "FG:ACTIVE_WORK" in text and "FG:ACTIVE_WORK:START" not in text:
+        result.add(
+            "warning",
+            "FG031",
+            "ACTIVE WORK section should use FG:ACTIVE_WORK:START/END markers",
+            loc,
+        )
+
+    todo_ids = TODO_HEADING_RE.findall(text)
+    if len(todo_ids) != len(set(todo_ids)):
+        result.add("error", "FG034", "Duplicate FG-TODO id in feature file", loc)
+
+    in_progress = 0
+    for todo_id in set(todo_ids):
+        block = _extract_todo_block(text, todo_id)
+        if not block:
+            continue
+        status_match = re.search(r"^Status:\s*(\S+)\s*$", block, re.MULTILINE)
+        status = status_match.group(1) if status_match else ""
+        if status not in VALID_TODO_STATUS:
+            result.add(
+                "error",
+                "FG032",
+                f"{todo_id} has invalid Status: {status or '(missing)'}",
+                loc,
+            )
+            continue
+        if status == "IN_PROGRESS":
+            in_progress += 1
+        if status == "DONE":
+            if not re.search(r"^Completed:\s*\S", block, re.MULTILINE):
+                result.add(
+                    "error",
+                    "FG033",
+                    f"{todo_id} is DONE but missing Completed: date",
+                    loc,
+                )
+            if not re.search(r"^Evidence:\s*\S", block, re.MULTILINE):
+                result.add(
+                    "error",
+                    "FG033",
+                    f"{todo_id} is DONE but missing Evidence:",
+                    loc,
+                )
+        if status == "CANCELLED" and not re.search(
+            r"^Reason:\s*\S", block, re.MULTILINE
+        ):
+            result.add(
+                "warning",
+                "FG032",
+                f"{todo_id} is CANCELLED but missing Reason:",
+                loc,
+            )
+
+    if in_progress > 1:
+        result.add(
+            "warning",
+            "FG032",
+            f"Multiple IN_PROGRESS todos ({in_progress}); prefer one unless user parallelizes",
+            loc,
+        )
+
+
+def _extract_todo_block(text: str, todo_id: str) -> str:
+    pattern = re.compile(
+        rf"^###\s+{re.escape(todo_id)}\s*\n(.*?)(?=^###\s+FG-TODO-|\Z)",
+        re.MULTILINE | re.DOTALL,
+    )
+    match = pattern.search(text)
+    return match.group(1) if match else ""
 
 
 def cross_reference_checks(

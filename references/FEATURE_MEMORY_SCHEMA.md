@@ -44,7 +44,7 @@ Use HTML markers for machine-updatable sections:
 9. ARCHITECTURE
 10. DEPENDENCIES
 11. CONTRACTS
-12. ACTIVE WORK
+12. ACTIVE WORK — feature todos (`FG-TODO-...`); see [FEATURE_TODOS.md](FEATURE_TODOS.md)
 13. TEST SUMMARY
 14. TEST REGISTRY
 15. EVIDENCE REGISTRY
@@ -169,3 +169,7 @@ Review result: PENDING
 ```
 
 Template: [assets/FEATURE_TEMPLATE.md](../assets/FEATURE_TEMPLATE.md)
+
+## Parity (additive, backward compatible)
+
+New feature templates include `parity-claim: UNKNOWN` and a `FG:PARITY` lean **card index** (schema 2) between CONTRACTS and ACTIVE WORK. Schema 1 unit manifests remain valid. Existing records without parity have UNKNOWN status; migrate on relevant work. Hash STALE/FAIL blocks done for touched contracts; agents must report drifts to the user and ask when decisions are required. Details: [PARITY.md](PARITY.md).
