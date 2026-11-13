@@ -1,0 +1,59 @@
+name: Bug report
+description: Report a problem with the skill, the scripts, the memory schema, or the docs.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Leave out secrets, tokens, passwords, and connection strings. For a vulnerability, use GitHub private vulnerability reporting instead of this form (see SECURITY.md).
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Commands, agent prompts, and which files were involved.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Skill behavior (SKILL.md or references)
+        - bootstrap_memory.py
+        - validate_memory.py
+        - Cursor install or always-on rule
+        - Memory schema or templates
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Feature Guardian version
+      description: Skill version and schema if you know them.
+      placeholder: "0.1.0 / schema 0.1"
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      description: Output of `python3 --version`, when a script is involved.
+      placeholder: "Python 3.12.3"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Output
+      description: Validator output, bootstrap output, or the agent checkpoint. Redact secrets.
+      render: shell

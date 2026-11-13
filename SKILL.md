@@ -146,3 +146,5 @@ Remaining: ... (explicit unknowns/limitations)
 ## Version
 
 Skill `0.1.0` · Schema `0.1`
+
+Human guide (install, scripts, opt-out, uninstall): [README.md](README.md). Cursor steps: [adapters/cursor/INSTALL.md](adapters/cursor/INSTALL.md).

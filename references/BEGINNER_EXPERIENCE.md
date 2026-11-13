@@ -54,18 +54,18 @@ Do not dump full feature memory unless requested.
 
 - Read `.feature-guardian/PRODUCT.md` for product overview and registry.
 - Open `.feature-guardian/features/<slug>.md` for feature detail.
-- Run validator: `python path/to/validate_memory.py .`
+- Run the validator from the installed skill: `python3 path/to/feature-guardian/scripts/validate_memory.py .`
 
 ## First-time setup
 
-1. Install skill + Cursor rule (see README).
-2. Run bootstrap in project root.
+1. Install the skill and the Cursor rule (see [README.md](../README.md) and [adapters/cursor/INSTALL.md](../adapters/cursor/INSTALL.md)).
+2. Run `bootstrap_memory.py` in the project root.
 3. Ask the agent to work normally; memory populates over time.
 
 ## Uninstall
 
-1. Remove `.cursor/rules/feature-guardian.mdc` (or project equivalent).
-2. Remove installed skill directory.
-3. Optionally keep `.feature-guardian/` as project documentation or delete after backup if no longer wanted.
+1. Remove `.cursor/rules/feature-guardian.mdc`.
+2. Remove the installed skill directory (`.cursor/skills/feature-guardian/` or `.agents/skills/feature-guardian/`).
+3. Keep `.feature-guardian/` when the project should retain the history. Delete that directory only when the memory is no longer wanted.
 
 Uninstalling the skill does not delete memory unless you choose to.

@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest a change to Feature Guardian.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        v0.1 is in active development. The README roadmap lists planned work (v0.2 intelligence, v0.3 other adapters, v0.4 CLI, v1.0 stability). Say if this request matches one of those.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or missing today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should change in the skill, the memory files, or the scripts?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Other approaches you considered.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Skill behavior
+        - Memory schema
+        - Scripts (bootstrap or validate)
+        - Cursor or other adapters
+        - Documentation
+        - Other
+    validations:
+      required: true
