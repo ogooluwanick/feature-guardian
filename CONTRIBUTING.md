@@ -2,7 +2,7 @@
 
 Thanks for helping. Feature Guardian is an Agent Skill (Markdown instructions plus two standard-library scripts) at version 0.1.0, schema 0.1. It is in active development: behavior and schemas can change. Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before participating.
 
-The maintainer is [@ogooluwanick](https://github.com/ogooluwanick).
+The maintainer is [@ogooluwanick](https://github.com/ogooluwanick). Private contact: ogooluwanick@gmail.com.
 
 ## Development setup
 

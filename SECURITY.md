@@ -16,6 +16,8 @@ Report vulnerabilities in this repository through GitHub private vulnerability r
 
 That opens a private draft security advisory for the maintainer, [@ogooluwanick](https://github.com/ogooluwanick).
 
+You can also report privately by email to ogooluwanick@gmail.com. GitHub private vulnerability reporting and that address are the two private channels. Use one of them.
+
 Please include:
 
 - the Feature Guardian version and schema (0.1.0 / 0.1 in the current release)
@@ -27,9 +29,9 @@ Do not include secrets, tokens, passwords, or credential-bearing connection stri
 
 Do not open a public GitHub issue, discussion, or pull request for an unfixed vulnerability.
 
-This project does not publish a security email address. If the advisory link says private vulnerability reporting is turned off, contact [@ogooluwanick](https://github.com/ogooluwanick) on GitHub and ask for a private channel before sending details. Enabling that page is GitHub's "Private vulnerability reporting" setting on the repository. It is not turned on by this file alone.
+If the advisory link says private vulnerability reporting is turned off, email ogooluwanick@gmail.com. Enabling that page is GitHub's "Private vulnerability reporting" setting on the repository. It is not turned on by this file alone.
 
-The maintainer will reply on the advisory. This project does not publish a response-time guarantee.
+The maintainer will reply on the channel you used. This project does not publish a response-time guarantee.
 
 ## Scope
 

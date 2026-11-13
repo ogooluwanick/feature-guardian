@@ -59,12 +59,11 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at the maintainer
-[@ogooluwanick](https://github.com/ogooluwanick) on GitHub. This repository does
-not publish a separate email address for reports. A public issue is fine when
-the report itself contains nothing private. If the report includes private
-information, contact that GitHub account and wait for a private follow-up
-before sending the details.
+reported to the community leaders responsible for enforcement at
+ogooluwanick@gmail.com. That address is the private contact for conduct reports.
+You can also reach the maintainer [@ogooluwanick](https://github.com/ogooluwanick)
+on GitHub. A public issue is fine when the report itself contains nothing
+private. Send private details to ogooluwanick@gmail.com.
 
 All complaints will be reviewed and investigated promptly and fairly.
 
