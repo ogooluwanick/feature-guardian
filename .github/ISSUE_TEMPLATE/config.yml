@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/ogooluwanick/feature-guardian/security/advisories/new
+    about: Report a vulnerability in this repository privately. Please do not open a public issue.
